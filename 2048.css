@@ -1,0 +1,11 @@
+body {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    text-align: justify;
+    width: 40%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.title {
+    font-size: 2em;
+}
