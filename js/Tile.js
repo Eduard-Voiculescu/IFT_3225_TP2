@@ -6,7 +6,6 @@ class Tile {
     this._tileMerged = null; /* We start with a Tile not merged */
   }
 
-  /* ---------- Getters ---------- */
   get tileValue() {
     return this._tileValue;
   }
@@ -18,7 +17,10 @@ class Tile {
   get posY() {
     return this._posY;
   }
-  /* ---------- Getters ---------- */
+  
+  get tileMerged () {
+    return this._tileMerged;
+  }
 
   updatePosition(posX, posY) {
     this._posX = posX;
