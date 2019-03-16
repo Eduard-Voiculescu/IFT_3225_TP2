@@ -3,8 +3,10 @@ class GameManager {
         this._size = size || 4;
         this.startTiles = 2; // number of starting tiles 
         this._grid; // game grid
+        this._keyboardManager = new KeyboardManager();
         this.initializeGrid();
         this.setUpGame();
+        initializeHTMLGrid();
     }
 
     initializeGrid() {
