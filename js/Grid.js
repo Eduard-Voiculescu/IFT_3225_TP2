@@ -38,7 +38,7 @@ class Grid {
         for (var i = 0; i < this._gridSize; i++) {
             this._cells[i] = []; // create an n x n matrix
             for (var j = 0; j < this._gridSize; j++) {
-                this._cells[i][j] = null;
+                this._cells[i].push(0);
             }
         }
     }
@@ -52,7 +52,7 @@ class Grid {
         for (var i = 0; i < this._gridSize; i++){
             string += "+"
             for(var j = 0; j < this._gridSize; j++){
-                if (this._cells[i][j] == null) {
+                if (this._cells[i][j] == 0) {
                     string += "     +";
                 } else {
                     string += "  " + this._cells[i][j].toString() + "  +";
