@@ -24,7 +24,6 @@ function initializeHTMLGrid () {
         for (var columns = 0; columns < n; columns++) {
             // create n cells per row
             var cell = document.createElement('div');     
-            var cell_height =        
             cell.className = "grid-cell";
             cell.id = "grid-item-" + rows + "-" + columns;
             
