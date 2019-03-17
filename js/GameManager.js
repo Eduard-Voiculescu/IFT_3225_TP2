@@ -1,13 +1,29 @@
 class GameManager {
-    constructor(size){
-        this._size = size || 4;
+    constructor(){
+        this._size = document.getElementById("nParam").value || 4;
         this.startTiles = 2; // number of starting tiles 
         this._grid; // game grid
         this._hasMoved = false; // bug si la personne bougeait mais rien se passait
         this._gameScoreManager = new GameScoreManager();
         this._emptyCells = this._size * this._size; // the number of empty cells is equal at the height x width of the game
         this.keyboardPlayer();
+        this.buttonListener();
         this.startGame();
+    }
+
+    buttonListener() {
+        document.getElementById("restartButton").addEventListener("click", event=>{
+            removeHTMLGrid();
+            this.startGame();
+        })
+        document.getElementById("resizeButton").addEventListener("click", event=>{
+            removeHTMLGrid();
+            this.startGame();
+        })
+        document.getElementById("restartButtonGameOver").addEventListener("click", event=>{
+            removeHTMLGrid();
+            this.startGame();
+        })
     }
 
     /* Keyboard listener */
@@ -187,7 +203,7 @@ class GameManager {
     }
 
     gameOver() {
-        
+        var gameOver = document.createElement("div");
     }
 
     initializeGrid() {
