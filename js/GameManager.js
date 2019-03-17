@@ -3,12 +3,11 @@ class GameManager {
         this._size = size || 4;
         this.startTiles = 2; // number of starting tiles 
         this._grid; // game grid
-        this._colors = [];
         this._hasMoved = false; // bug si la personne bougeait mais rien se passait
-        initializeHTMLGrid();
+        this._gameScoreManager = new GameScoreManager();
+        this._emptyCells = this._size * this._size; // the number of empty cells is equal at the height x width of the game
         this.keyboardPlayer();
-        this.initializeGrid();
-        this.setupGame();
+        this.startGame();
     }
 
     /* Keyboard listener */
@@ -29,18 +28,13 @@ class GameManager {
                     randomTile = this.addRandomTile();
                 }
                 this._grid.insertTile(randomTile);
+                this.updateGameMoves();
                 this._hasMoved = false;
+
             }
             this.toString();
             console.log(this._grid);
-            for (var i = 0; i < this._size; i++) {
-                for (var j = 0; j < this._size; j++) {
-                    console.log(this._grid.cells[i][j]);  
-                    this._grid.updateGrid(this._grid.cells[i][j]);
-                }
-            }
-            // this.toString();
-            // console.log(this._grid);
+            this.updateGameState();
         });
     }
     left () {
@@ -64,6 +58,7 @@ class GameManager {
                         this._grid.cells[i][column - 1].tileValue = value * 2;
                         this._grid.cells[i][column].tileValue = 0;
                         this._hasMoved = true;
+                        this.updateGameScore(value);
                     }
                 }
             }
@@ -92,6 +87,7 @@ class GameManager {
                         this._grid.cells[row - 1][j].tileValue = value * 2;
                         this._grid.cells[row][j].tileValue = 0;
                         this._hasMoved = true; 
+                        this.updateGameScore(value);
                     }
                 }
             }
@@ -120,6 +116,7 @@ class GameManager {
                         this._grid.cells[row + 1][j].tileValue = value * 2;
                         this._grid.cells[row][j].tileValue = 0;
                         this._hasMoved = true; 
+                        this.updateGameScore(value);
                     }
                 }
             }
@@ -148,11 +145,49 @@ class GameManager {
                         this._grid.cells[i][column + 1].tileValue = value * 2; 
                         this._grid.cells[i][column].tileValue = 0;  
                         this._hasMoved = true;   
+                        this.updateGameScore(value);
                     }
                 }
             }
         }
         console.log("right button pressed");
+    }
+
+    updateGameState (){
+        this._emptyCells = this._size * this._size;
+        for (var i = 0; i < this._size; i++) {
+            for (var j = 0; j < this._size; j++) {
+                console.log(this._grid.cells[i][j]); 
+                if (this._grid.cells[i][j] != 0){ 
+                    this._emptyCells--;
+                }
+                this._grid.updateGrid(this._grid.cells[i][j]);
+            }
+        }
+        if (this.isGameOver()){
+            this.gameOver();
+        }
+    }
+
+    updateGameScore (value) {
+        var actualScore = this._gameScoreManager.updateScore(value);
+        document.getElementById("scoreContainerResult").innerHTML = "" + actualScore;
+    }
+
+    updateGameMoves () {
+        var actualMoves = this._gameScoreManager.updateMoves();
+        document.getElementById("movesContainerBottom").innerHTML = "" + actualMoves;
+    }
+
+    isGameOver() {
+        if (this._emptyCells == 0) {
+            return true;
+        }
+        return false;
+    }
+
+    gameOver() {
+        
     }
 
     initializeGrid() {
@@ -200,12 +235,13 @@ class GameManager {
 
     // Start 2048 game
     setupGame(){
+        this.initializeGrid();
         this.setupStartingTiles();
-        this.startGame();
     }
 
     startGame() {
-        this.toString();
+        initializeHTMLGrid();
+        this.setupGame();
     }
 
 }
