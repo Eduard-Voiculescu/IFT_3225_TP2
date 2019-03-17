@@ -10,7 +10,7 @@
         <script src="js/GameScoreManager.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     </head>
-    <body onload="new GameManager(4)">
+    <body onload="new GameManager()">
         <div id="container">
             <!-- Title Header Section -->
             <div id="header">
@@ -37,16 +37,20 @@
             <div id="buttons">
                 <!-- Start Button -->
                 <div id="start">
-                    <a class="button" id="startButton">Start</a>
+                    <a class="button" id="restartButton">Restart</a>
                 </div>
                 <div id="resize">
                     <div class="resizeInput">
-                        <p>n : <input type="text" id="nParam" value="4"></p>
+                        <p>n : <input type="number" id="nParam" value="4"></p>
                     </div>
                     <div class="resizeInput">
                         <a class="button" id="resizeButton">Resize</a>
                     </div>
                 </div>
+            </div>
+            <div id="gameOver" class="messageBox">
+                <p>Game Over!</p>
+                <a class="button" id="restartButtonGameOver">Restart</a>
             </div>
         </div>
     </body>
