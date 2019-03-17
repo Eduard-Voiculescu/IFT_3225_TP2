@@ -43,3 +43,11 @@ function initializeHTMLGrid () {
     game_container.appendChild(grid_container);
     
 }
+
+function removeHTMLGrid () {
+    // https://stackoverflow.com/questions/3955229/remove-all-child-elements-of-a-dom-node-in-javascript
+    var grid = document.getElementById("grid-container");
+    while(grid.firstChild) {
+        grid.removeChild(grid.firstChild);
+    }
+}
