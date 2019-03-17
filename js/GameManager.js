@@ -14,15 +14,15 @@ class GameManager {
     buttonListener() {
         document.getElementById("restartButton").addEventListener("click", event=>{
             removeHTMLGrid();
-            this.startGame();
+            new GameManager();
         })
         document.getElementById("resizeButton").addEventListener("click", event=>{
             removeHTMLGrid();
-            this.startGame();
+            new GameManager();
         })
         document.getElementById("restartButtonGameOver").addEventListener("click", event=>{
             removeHTMLGrid();
-            this.startGame();
+            new GameManager();
         })
     }
 
@@ -203,7 +203,8 @@ class GameManager {
     }
 
     gameOver() {
-        var gameOver = document.createElement("div");
+        var gameOver = document.getElementById('gameOver');
+        console.log("GAME OVER");
     }
 
     initializeGrid() {
