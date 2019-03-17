@@ -16,6 +16,7 @@ class Grid {
     // Inserts tile in cell[tile.posX][tile.posY]
     insertTile (tile) {
         this._cells[tile.posX][tile.posY] = tile;
+        this.updateGrid(tile);
     }
 
     // check for the first available cell 
@@ -38,13 +39,22 @@ class Grid {
         for (var i = 0; i < this._gridSize; i++) {
             this._cells[i] = []; // create an n x n matrix
             for (var j = 0; j < this._gridSize; j++) {
-                this._cells[i].push(0);
+                this._cells[i].push(new Tile(i, j, 0));
             }
         }
     }
 
     randomPositionInitializer() {
         return Math.floor(Math.random() * this._gridSize);
+    }
+
+    /* @tile : Tile */
+    updateGrid (tile) {
+        if (tile.tileValue != 0) {
+            document.getElementById("grid-item-" + tile.posX + "-" + tile.posY).innerHTML = tile.tileValue;
+        } else {
+            document.getElementById("grid-item-" + tile.posX + "-" + tile.posY).innerHTML = "";
+        }
     }
 
     toString(){
