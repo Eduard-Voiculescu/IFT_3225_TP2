@@ -3,11 +3,14 @@ class Tile {
     this._posX = posX;
     this._posY = posY;
     this._tileValue = tileValue;
-    this._tileMerged = null; /* We start with a Tile not merged */
   }
 
   get tileValue() {
     return this._tileValue;
+  }
+
+  set tileValue(tileValue) {
+    this._tileValue = tileValue;
   }
 
   get posX() {
