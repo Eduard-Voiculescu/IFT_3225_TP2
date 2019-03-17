@@ -35,12 +35,6 @@ function initializeHTMLGrid () {
                 cell.style.marginRight = "15px";
             }
             // add cell to the row
-            var node = document.createElement('div');
-            node.id = "tile-" + rows + "-" + columns;
-            node.innerHTML = "Tile[" + rows + "][" + columns + "]";
-            node.style.paddingTop =  (515/n - 45) / 2 + "px";
-            cell.appendChild(node);
-            
             row.appendChild(cell);
         }   
         grid_container.appendChild(row);
