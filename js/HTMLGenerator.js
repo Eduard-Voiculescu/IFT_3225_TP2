@@ -16,7 +16,7 @@ function initializeHTMLGrid () {
 
         // row style attributes
         row.style.width = "500px";
-        row.style.height = 515/n - 15 + "px";
+        row.style.height = 515 / n - 15 + "px";
         if (rows != n - 1) {
             row.style.marginBottom = "15px"; 
         }
@@ -29,9 +29,10 @@ function initializeHTMLGrid () {
             cell.id = "grid-item-" + rows + "-" + columns;
             
             // cell style attributes
-            cell.style.width = 515/n - 15 + "px";
-            cell.style.height = 515/n - 15 + "px";
-            if (columns != n -1) {
+            cell.style.width = 515 / n - 15 + "px";
+            cell.style.height = 515 / n - 15 + "px";
+            cell.style.fontSize = 220 / n + "px";
+            if (columns != n - 1) {
                 cell.style.marginRight = "15px";
             }
             // add cell to the row
