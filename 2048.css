@@ -136,3 +136,11 @@ input[type=text]{
     height: 30px;
     margin-right: 20px;
 }
+
+.messageBox {
+    position: absolute;
+    width: 500px;
+    margin: auto;
+    height: 300px;
+    top: 200px;
+}
