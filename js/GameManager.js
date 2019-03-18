@@ -6,6 +6,7 @@ class GameManager {
         this._hasMoved = false; // bug si la personne bougeait mais rien se passait
         this._gameScoreManager = new GameScoreManager();
         this._emptyCells = this._size * this._size; // the number of empty cells is equal at the height x width of the game
+        this._notGameOver = true;
         this.keyboardPlayer();
         this.buttonListener();
         this.startGame();
@@ -29,31 +30,34 @@ class GameManager {
     /* Keyboard listener */
     keyboardPlayer() {
         window.addEventListener("keydown", key => {
-            if (key.keyCode == 37 || key.keyCode == 65) {
-                this.left()
-            } else if (key.keyCode == 38 || key.keyCode == 87) {
-                this.up();
-            } else if (key.keyCode == 39 || key.keyCode == 68) {
-                this.right();
-            } else if (key.keyCode == 40 || key.keyCode == 83) {
-                this.down();
-            }
-            if (this._hasMoved) {
-                var randomTile = this.addRandomTile();
-                while (this._grid.cells[randomTile.posX][randomTile.posY].tileValue != 0) {
-                    randomTile = this.addRandomTile();
+            if (this._notGameOver) {
+                if (key.keyCode == 37 || key.keyCode == 65) {
+                    this.left()
+                } else if (key.keyCode == 38 || key.keyCode == 87) {
+                    this.up();
+                } else if (key.keyCode == 39 || key.keyCode == 68) {
+                    this.right();
+                } else if (key.keyCode == 40 || key.keyCode == 83) {
+                    this.down();
                 }
-                this._grid.insertTile(randomTile);
-                this.updateGameMoves();
-                this._hasMoved = false;
+                if (this._hasMoved) {
+                    var randomTile = this.addRandomTile();
+                    while (this._grid.cells[randomTile.posX][randomTile.posY].tileValue != 0) {
+                        randomTile = this.addRandomTile();
+                    }
+                    this._grid.insertTile(randomTile);
+                    this.updateGameMoves();
+                    this._hasMoved = false;
 
+                }
+                this.toString();
+                console.log(this._grid);
+                this.updateGameState();
             }
-            this.toString();
-            console.log(this._grid);
-            this.updateGameState();
         });
     }
     left () {
+        
         for (var i = 0; i < this._size; i++) {
             for (var j = 1; j < this._size; j++){ // the first column cannot go the the left
                 console.log("left -> i: " + i + " j : " + j);
@@ -70,8 +74,9 @@ class GameManager {
                     }
 
                     // we have reached a Tile that has to be merged
-                    if (column >= 1 && value == this._grid.cells[i][column - 1]) {
+                    if (column >= 1 && value == this._grid.cells[i][column - 1] && !this._grid.cells[i][column - 1].tileMerged) {
                         this._grid.cells[i][column - 1].tileValue = value * 2;
+                        this._grid.cells[i][column - 1].tileMerged = true;
                         this._grid.cells[i][column].tileValue = 0;
                         this._hasMoved = true;
                         this.updateGameScore(value);
@@ -99,8 +104,9 @@ class GameManager {
                     }
 
                     // we have reached a TIle that has to be merged
-                    if (row >= 1 && value == this._grid.cells[row - 1][j]) {
+                    if (row >= 1 && value == this._grid.cells[row - 1][j] && !this._grid.cells[row - 1][j].tileMerged) {
                         this._grid.cells[row - 1][j].tileValue = value * 2;
+                        this._grid.cells[row - 1][j].tileMerged = true;
                         this._grid.cells[row][j].tileValue = 0;
                         this._hasMoved = true; 
                         this.updateGameScore(value);
@@ -128,8 +134,10 @@ class GameManager {
                     }
     
                     // we have reacehd a Tile that has to be merged
-                    if (row < this._size - 1 && value == this._grid.cells[row][j]) {
+                    // check if we can merge and check if tile has already been merged
+                    if (row < this._size - 1 && value == this._grid.cells[row + 1][j] && !this._grid.cells[row + 1][j].tileMerged) {
                         this._grid.cells[row + 1][j].tileValue = value * 2;
+                        this._grid.cells[row + 1][j].tileMerged = true;
                         this._grid.cells[row][j].tileValue = 0;
                         this._hasMoved = true; 
                         this.updateGameScore(value);
@@ -157,9 +165,10 @@ class GameManager {
                     }
 
                     // we have reached a Tile that has to be merged
-                    if (column <= this._size -2 && value == this._grid.cells[i][column + 1]) {
+                    if (column <= this._size - 2 && value == this._grid.cells[i][column + 1] && !this._grid.cells[i][column + 1].tileMerged) {
                         this._grid.cells[i][column + 1].tileValue = value * 2; 
                         this._grid.cells[i][column].tileValue = 0;  
+                        this._grid.cells[i][column + 1].tileMerged = true;
                         this._hasMoved = true;   
                         this.updateGameScore(value);
                     }
@@ -173,7 +182,7 @@ class GameManager {
         this._emptyCells = this._size * this._size;
         for (var i = 0; i < this._size; i++) {
             for (var j = 0; j < this._size; j++) {
-                console.log(this._grid.cells[i][j]); 
+                this._grid.cells[i][j].tileMerged = false;
                 if (this._grid.cells[i][j] != 0){ 
                     this._emptyCells--;
                 }
@@ -203,7 +212,9 @@ class GameManager {
     }
 
     gameOver() {
+        this._notGameOver = false;
         var gameOver = document.getElementById('gameOver');
+        gameOver.style.visibility = "visible";
         console.log("GAME OVER");
     }
 
@@ -252,6 +263,11 @@ class GameManager {
 
     // Start 2048 game
     setupGame(){
+        // start off the game fresh
+        document.getElementById("gameOver").style.visibility = "hidden";
+        document.getElementById("scoreContainerResult").innerHTML = "0";
+        document.getElementById("movesContainerBottom").innerHTML = "0";
+
         this.initializeGrid();
         this.setupStartingTiles();
     }
