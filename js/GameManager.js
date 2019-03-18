@@ -1,11 +1,11 @@
 class GameManager {
     constructor(){
-        this._size = document.getElementById("nParam").value || 4;
+        this._size;
         this.startTiles = 2; // number of starting tiles 
         this._grid; // game grid
         this._hasMoved = false; // bug si la personne bougeait mais rien se passait
-        this._gameScoreManager = new GameScoreManager();
-        this._emptyCells = this._size * this._size; // the number of empty cells is equal at the height x width of the game
+        this._gameScoreManager;
+        this._emptyCells; // the number of empty cells is equal at the height x width of the game
         this._notGameOver = true;
         this.keyboardPlayer();
         this.buttonListener();
@@ -15,15 +15,31 @@ class GameManager {
     buttonListener() {
         document.getElementById("restartButton").addEventListener("click", event=>{
             removeHTMLGrid();
-            new GameManager();
+            // remettre l'opacité à 1 quand on recommence une partie
+            document.getElementById('game-container').style.opacity = "1.0";
+            this.startGame();
+            // new GameManager();
         })
         document.getElementById("resizeButton").addEventListener("click", event=>{
             removeHTMLGrid();
-            new GameManager();
+            // remettre l'opacité à 1 quand on recommence une partie
+            document.getElementById('game-container').style.opacity = "1.0";
+            this.startGame();
+            // new GameManager();
         })
         document.getElementById("restartButtonGameOver").addEventListener("click", event=>{
             removeHTMLGrid();
-            new GameManager();
+            // remettre l'opacité à 1 quand on recommence une partie
+            document.getElementById('game-container').style.opacity = "1.0";
+            this.startGame();
+            // new GameManager();
+        })
+        document.getElementById("restartButtonWinner").addEventListener("click", event=>{
+            removeHTMLGrid();
+            // remettre l'opacité à 1 quand on recommence une partie
+            document.getElementById('game-container').style.opacity = "1.0";
+            this.startGame();
+            // new GameManager();
         })
     }
 
@@ -192,6 +208,9 @@ class GameManager {
         if (this.isGameOver()){
             this.gameOver();
         }
+        if (this.isWinner()){
+            this.winner();
+        }
     }
 
     updateGameScore (value) {
@@ -205,7 +224,11 @@ class GameManager {
     }
 
     isGameOver() {
-        if (this._emptyCells == 0) {
+        if (this._emptyCells == 0 && !this.checkAvailableMoves()) {
+            /* 
+             * Faire le check up de si on est bel et bien dans un état de game over. Donc qu'il
+             * n'y a pu de coups possibles, pas juste si le grid est rempli.
+             */
             return true;
         }
         return false;
@@ -213,9 +236,76 @@ class GameManager {
 
     gameOver() {
         this._notGameOver = false;
+        document.getElementById('game-container').style.opacity = "0.2";
         var gameOver = document.getElementById('gameOver');
         gameOver.style.visibility = "visible";
         console.log("GAME OVER");
+    }
+
+    isWinner() {
+        for (var row = 0; row < this._size; row++) {
+            for (var col = 0; col < this._size ; col++) {
+                if (this._grid.cells[row][col].tileValue == 2048){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    winner() {
+        document.getElementById('game-container').style.opacity = "0.2";
+        document.getElementById('winner').style.visibility = "visible";
+        console.log("Winner");
+    }
+
+
+    // This function checks if there is at least 1 available move
+    checkAvailableMoves() {
+        var tile;
+        for (var row = 0; row < this._size; row++) {
+            for (var col = 0; col < this._size; col++) {
+                tile = this._grid.cells[row][col];
+
+                try {
+                    // check the left of the tile 
+                    if (this._grid.cells[row][col - 1].tileValue == this._grid.cells[row][col]){
+                        return true; // movement is possible
+                    }
+                } catch (error) {
+                    console.log("Movement vers la gauche possible (" + row + ", " + col + ")");
+                }
+                
+                try {
+                    // check the right of the tile
+                    if (this._grid.cells[row][col + 1].tileValue == this._grid.cells[row][col]){
+                        return true; // movement is possible
+                    } 
+                } catch (error) {
+                    console.log("Movement vers la droite possible (" + row + ", " + col + ")");
+                }
+
+                try {
+                    // check at the tile below
+                    if (this._grid.cells[row + 1][col].tileValue == this._grid.cells[row][col]){
+                        return true; // movement is possible
+                    } 
+                } catch (error) {
+                    console.log("Movement vers le bas possible (" + row + ", " + col + ")");
+                }
+
+                try {
+                    // check at the tile above
+                    if (this._grid.cells[row][col - 1].tileValue == this._grid.cells[row][col]){
+                        return true; // movement is possible
+                    } 
+                } catch (error) {
+                    console.log("Movement vers la droite possible (" + row + ", " + col + ")");
+                }
+
+            }
+        }
+        return false;
     }
 
     initializeGrid() {
@@ -265,14 +355,23 @@ class GameManager {
     setupGame(){
         // start off the game fresh
         document.getElementById("gameOver").style.visibility = "hidden";
+        document.getElementById("winner").style.visibility = "hidden";
         document.getElementById("scoreContainerResult").innerHTML = "0";
         document.getElementById("movesContainerBottom").innerHTML = "0";
 
+        // set up grid
         this.initializeGrid();
         this.setupStartingTiles();
     }
 
+    startOffNewGame() {
+        this._size = document.getElementById("nParam").value || 4;
+        this._emptyCells = this._size * this._size;
+        this._gameScoreManager = new GameScoreManager();
+    }
+
     startGame() {
+        this.startOffNewGame();
         initializeHTMLGrid();
         this.setupGame();
     }
