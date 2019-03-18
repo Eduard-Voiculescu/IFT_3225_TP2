@@ -3,6 +3,7 @@ class Tile {
     this._posX = posX;
     this._posY = posY;
     this._tileValue = tileValue;
+    this._tileMerged = false;
   }
 
   get tileValue() {
@@ -23,6 +24,10 @@ class Tile {
   
   get tileMerged () {
     return this._tileMerged;
+  }
+  
+  set tileMerged(tileMerged) {
+    this._tileMerged = tileMerged;
   }
 
   updatePosition(posX, posY) {
