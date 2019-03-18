@@ -73,10 +73,6 @@ h1.title {
     height: 500px;
 }
 
-.grid-row {
-    
-}
-
 .grid-cell {
     text-align: center;
     border-radius: 6px;
@@ -96,10 +92,6 @@ h1.title {
 
 #start {
     float: left;
-}
-
-#startButton {
-    
 }
 
 #resize {
@@ -138,9 +130,12 @@ input[type=text]{
 }
 
 .messageBox {
-    position: absolute;
-    width: 500px;
-    margin: auto;
-    height: 300px;
-    top: 200px;
+    text-align: center;
+    position: fixed;
+    width: 530px;
+    height: 530px;
+    top: 50%;
+    left: 50%;
+    margin-top: -150px; /* Negative half of height. */
+    margin-left: -250px; /* Negative half of width. */
 }
