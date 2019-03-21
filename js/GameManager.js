@@ -368,6 +368,7 @@ class GameManager {
         this._size = document.getElementById("nParam").value || 4;
         this._emptyCells = this._size * this._size;
         this._gameScoreManager = new GameScoreManager();
+        this._notGameOver = true;
     }
 
     startGame() {
