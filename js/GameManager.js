@@ -18,28 +18,24 @@ class GameManager {
             // remettre l'opacité à 1 quand on recommence une partie
             document.getElementById('game-container').style.opacity = "1.0";
             this.startGame();
-            // new GameManager();
         })
         document.getElementById("resizeButton").addEventListener("click", event=>{
             removeHTMLGrid();
             // remettre l'opacité à 1 quand on recommence une partie
             document.getElementById('game-container').style.opacity = "1.0";
             this.startGame();
-            // new GameManager();
         })
         document.getElementById("restartButtonGameOver").addEventListener("click", event=>{
             removeHTMLGrid();
             // remettre l'opacité à 1 quand on recommence une partie
             document.getElementById('game-container').style.opacity = "1.0";
             this.startGame();
-            // new GameManager();
         })
         document.getElementById("restartButtonWinner").addEventListener("click", event=>{
             removeHTMLGrid();
             // remettre l'opacité à 1 quand on recommence une partie
             document.getElementById('game-container').style.opacity = "1.0";
             this.startGame();
-            // new GameManager();
         })
     }
 
@@ -246,6 +242,7 @@ class GameManager {
         for (var row = 0; row < this._size; row++) {
             for (var col = 0; col < this._size ; col++) {
                 if (this._grid.cells[row][col].tileValue == 2048){
+                    this._notGameOver = false;
                     return true;
                 }
             }
