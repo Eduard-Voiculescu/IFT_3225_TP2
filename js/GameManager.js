@@ -62,8 +62,6 @@ class GameManager {
                     this._hasMoved = false;
 
                 }
-                this.toString();
-                console.log(this._grid);
                 this.updateGameState();
             }
         });
@@ -72,7 +70,6 @@ class GameManager {
         
         for (var i = 0; i < this._size; i++) {
             for (var j = 1; j < this._size; j++){ // the first column cannot go the the left
-                console.log("left -> i: " + i + " j : " + j);
                 if (this._grid.cells[i][j].tileValue != 0){
                     var column = j;
                     var value = this._grid.cells[i][column].tileValue;
@@ -96,13 +93,11 @@ class GameManager {
                 }
             }
         }
-        console.log("left button pressed");
     }
 
     up() {
         for (var i = 1; i < this._size; i++) {
             for (var j = 0; j < this._size; j++) {
-                console.log("up -> i: " + i + " j : " + j);
                 if (this._grid.cells[i][j].tileValue != 0) {
                     var row = i;
                     var value = this._grid.cells[row][j].tileValue;
@@ -126,13 +121,11 @@ class GameManager {
                 }
             }
         }
-        console.log("up button pressed");
     }
 
     down() {
         for (var i = this._size - 2; i >= 0; i--) {
             for (var j = 0; j < this._size; j++) {
-                console.log("down -> i: " + i + " j : " + j);
                 if (this._grid.cells[i][j].tileValue != 0) {
                     var row = i;
                     var value = this._grid.cells[row][j].tileValue;
@@ -157,13 +150,11 @@ class GameManager {
                 }
             }
         }
-        console.log("down button pressed");
     }
 
     right() {
         for (var i = 0; i < this._size; i++) {
             for (var j = this._size - 2; j >= 0; j--) { // the last column cannot go to the right
-                console.log("right -> i: " + i + " j : " + j);
                 if (this._grid.cells[i][j].tileValue != 0) {
                     var column = j; // la colonne actuelle où la Tile se trouve
                     var value = this._grid.cells[i][column].tileValue;
@@ -187,7 +178,6 @@ class GameManager {
                 }
             }
         }
-        console.log("right button pressed");
     }
 
     updateGameState (){
@@ -235,7 +225,6 @@ class GameManager {
         document.getElementById('game-container').style.opacity = "0.2";
         var gameOver = document.getElementById('gameOver');
         gameOver.style.visibility = "visible";
-        console.log("GAME OVER");
     }
 
     isWinner() {
@@ -253,11 +242,11 @@ class GameManager {
     winner() {
         document.getElementById('game-container').style.opacity = "0.2";
         document.getElementById('winner').style.visibility = "visible";
-        console.log("Winner");
     }
 
 
     // This function checks if there is at least 1 available move
+    // if so, return true
     checkAvailableMoves() {
         var tile;
         for (var row = 0; row < this._size; row++) {
@@ -307,8 +296,6 @@ class GameManager {
 
     initializeGrid() {
         this._grid = new Grid(this._size);
-        console.log(this._grid);
-        console.log("Grid size is : " + this._size);
     }
 
     // Add the starting tiles
