@@ -2,7 +2,6 @@
 
 ## Travail fait par
 VOICULESCU Eduard - 20078235
-DAHER Bilal - 20069251
 
 ### Instructions
 Pour jouer au jeu, il suffit simplement de faire un click droit sur index.xhtml et l'ouvrir avec Chrome ou votre navigateur préféré. <br />
